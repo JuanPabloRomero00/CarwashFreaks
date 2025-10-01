@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import imgHero from '../../public/img/carwash-section.png';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Register = () => {
       <main className="login-main">
         <section className="login-section">
           <div className="login-left">
-            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" alt="CarwashFreaks" className="login-img" />
+            {/* <img src={imgHero} alt="CarwashFreaks" className="login-img" /> */}
             <div className="login-logo">CarwashFreaks</div>
           </div>
           <div className="login-right">
