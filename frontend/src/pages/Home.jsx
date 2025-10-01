@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import imgHero from '../../public/img/carwash-section.png';
 
 const Home = () => {
   const serviciosRef = useRef(null);
@@ -33,7 +32,7 @@ const Home = () => {
         <section id="hero" className="hero-section">
           <div className="hero-slider">
             {/* Aquí iría el slider de imágenes, por ahora placeholder */}
-            <img src={imgHero} alt="Carwash" className="hero-img" />
+            <img src="/img/carwash-section.png" alt="Carwash" className="hero-img" />
             <div className="hero-overlay">
               <h1>¡Tu auto como nuevo, siempre!</h1>
               <p>Servicio profesional de lavado y detailing en CarwashFreaks.</p>

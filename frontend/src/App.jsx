@@ -8,10 +8,10 @@ import Register from './pages/Register';
 const App = () => (
   <Router>
     <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/dashboard" element={<Dashboard />} />
-  <Route path="/login" element={<Login />} />
-  <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
   </Router>
 );
