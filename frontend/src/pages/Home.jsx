@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Services from '../components/Services';
 
 const Home = () => {
   const serviciosRef = useRef(null);
@@ -43,25 +44,7 @@ const Home = () => {
 
         {/* Servicios Section */}
         <section id="servicios" ref={serviciosRef} className="servicios-section">
-          <h2>Nuestros Servicios</h2>
-          <div className="servicios-grid">
-            <div className="servicio-card">
-              <h3>Lavado Exterior</h3>
-              <p>Eliminamos suciedad y polvo, dejando tu auto reluciente.</p>
-            </div>
-            <div className="servicio-card">
-              <h3>Lavado Interior</h3>
-              <p>Limpieza profunda de alfombras, asientos y paneles.</p>
-            </div>
-            <div className="servicio-card">
-              <h3>Detailing</h3>
-              <p>Tratamientos especiales para pintura, plásticos y tapizados.</p>
-            </div>
-            <div className="servicio-card">
-              <h3>Desinfección</h3>
-              <p>Sanitización profesional para tu tranquilidad y seguridad.</p>
-            </div>
-          </div>
+          <Services />
         </section>
 
         {/* Turnos Section */}
