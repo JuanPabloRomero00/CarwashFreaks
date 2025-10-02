@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+body {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  background: #F8F9FA;
+  color: #222;
+}
+
+
 /*=======================================
           Login page styles
 ========================================*/
@@ -351,13 +359,13 @@
 /*================================
         Services List Styles
 =================================*/
-.services-section {
+.services-list-section {
   max-width: 1000px;
   margin: 0 auto;
   padding: 24px;
 }
 
-.services-section h2 {
+.services-list-section h2 {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 24px;
@@ -365,13 +373,13 @@
   text-align: center;
 }
 
-.services-grid {
+.services-list-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
-.service-card {
+.service-list-card {
   background: #fff;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
@@ -380,26 +388,26 @@
   transition: box-shadow 0.2s, transform 0.2s;
 }
 
-.service-card:hover {
+.service-list-card:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transform: translateY(-2px);
 }
 
-.service-header {
+.service-list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.service-header h3 {
+.service-list-header h3 {
   font-size: 1.3rem;
   font-weight: bold;
   color: #222;
   margin: 0;
 }
 
-.service-duration {
+.service-list-duration {
   background: #f0f0f0;
   color: #666;
   padding: 4px 8px;
@@ -408,17 +416,17 @@
   font-weight: bold;
 }
 
-.service-content {
+.service-list-content {
   margin-bottom: 16px;
 }
 
-.service-description {
+.service-list-description {
   color: #555;
   line-height: 1.5;
   margin-bottom: 12px;
 }
 
-.service-features {
+.service-list-features {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -433,7 +441,7 @@
   border: 1px solid #e5e5e5;
 }
 
-.service-footer {
+.service-list-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -441,7 +449,7 @@
   border-top: 1px solid #f0f0f0;
 }
 
-.service-price {
+.service-list-price {
   display: flex;
   flex-direction: column;
 }
@@ -459,7 +467,7 @@
 }
 
 @media (max-width: 768px) {
-  .services-grid {
+  .services-list-grid {
     grid-template-columns: 1fr;
   }
   
@@ -472,12 +480,9 @@
   }
 }
 
-body {
-  margin: 0;
-  font-family: 'Roboto', Arial, sans-serif;
-  background: #F8F9FA;
-  color: #222;
-}
+/* ====================================
+          HERO SECTION
+===================================== */
 .hero-section {
   width: 100vw;
   min-height: 350px;
@@ -534,36 +539,6 @@ body {
   background: #444;
 }
 
-.servicios-section {
-  padding: 64px 0 32px 0;
-  background: #f3f3f3;
-  text-align: center;
-}
-.servicios-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin-top: 32px;
-}
-.servicio-card {
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  padding: 24px 16px;
-  text-align: center;
-  font-size: 1rem;
-  color: #222;
-}
-.servicio-card h3 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-.servicio-card p {
-  font-size: 1rem;
-  color: #555;
-}
 
 .turnos-section {
   padding: 48px 0;
@@ -630,18 +605,10 @@ body {
   background: #444;
 }
 
-@media (max-width: 1024px) {
-  .servicios-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 @media (max-width: 768px) {
   .hero-img, .hero-overlay, .hero-slider {
     min-height: 220px;
     max-height: 220px;
-  }
-  .servicios-grid {
-    grid-template-columns: 1fr;
   }
   .form-row {
     flex-direction: column;
@@ -649,7 +616,9 @@ body {
   }
 }
 
-
+/* ====================================
+          HEADER 
+=====================================*/
 .header {
   position: fixed;
   top: 0;
@@ -774,3 +743,79 @@ body {
     text-align: center;
   }
 }
+
+/* ==================================
+        Servicios (pagina inicio)
+==================================== */
+.services-section {
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  max-width: 1200px;
+  margin: auto;
+}
+
+.services-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #111;
+  text-align: center;
+}
+
+.services-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4rem;
+}
+
+.service-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.service-img {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.service-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.service-card p {
+  font-size: 0.9rem;
+  color: #555;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.service-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+}
+
