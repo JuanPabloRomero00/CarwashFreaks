@@ -27,7 +27,7 @@ const Header = () => {
 
   // Simulación de autenticación (reemplazar por lógica real)
   // Cambia esto a 'true' para probar la UI de usuario autenticado
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   // Obtener items de navegación según estado de autenticación
   const getNavItems = () => {
