@@ -1,25 +1,25 @@
-import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Services from '../components/Services';
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Services from "../components/Services";
 
 const Home = () => {
   const serviciosRef = useRef(null);
   const turnosRef = useRef(null);
   const contactoRef = useRef(null);
 
-
   const navigate = useNavigate();
   // Simulación de autenticación (reemplazar por lógica real)
   const isAuthenticated = false;
 
   // Scroll helpers para navegación interna
-  const scrollTo = ref => ref.current && ref.current.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (ref) =>
+    ref.current && ref.current.scrollIntoView({ behavior: "smooth" });
 
   const handleReservarHero = () => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate("/login");
     } else {
       scrollTo(turnosRef);
     }
@@ -33,26 +33,69 @@ const Home = () => {
         <section id="hero" className="hero-section">
           <div className="hero-slider">
             {/* Aquí iría el slider de imágenes, por ahora placeholder */}
-            <img src="/img/carwash-section.png" alt="Carwash" className="hero-img" />
+            <img
+              src="/img/carwash-section.png"
+              alt="Carwash"
+              className="hero-img"
+            />
             <div className="hero-overlay">
               <h1>¡Tu auto como nuevo, siempre!</h1>
-              <p>Servicio profesional de lavado y detailing en CarwashFreaks.</p>
-              <button className="reservar-btn" onClick={handleReservarHero}>Reservar turno</button>
+              <p>
+                Servicio profesional de lavado y detailing en CarwashFreaks.
+              </p>
+              <button className="reservar-btn" onClick={handleReservarHero}>
+                Reservar turno
+              </button>
             </div>
           </div>
         </section>
 
         {/* Servicios Section */}
-        <section id="servicios" ref={serviciosRef} className="servicios-section">
+        <section
+          id="servicios"
+          ref={serviciosRef}
+          className="servicios-section"
+        >
           <Services />
         </section>
 
         {/* Turnos Section */}
         <section id="turnos" ref={turnosRef} className="turnos-section">
           <h2>Turnos</h2>
-          <p>
-            Reservá tu turno online, elegí el servicio y horario que prefieras. Podés cancelar hasta 2 horas antes del turno. Para reservar, completá el formulario y te confirmamos por email.
+          <p className="intro">
+            Reservá tu turno online, elegí el servicio y horario que prefieras.
+            Podés cancelar hasta 2 horas antes del turno. Para reservar,
+            completá el formulario y te confirmamos por email.
           </p>
+
+          <div className="steps-container">
+            <div className="step">
+              <div className="step-icn">📝</div>
+              <h3>1. Elegi tu servicio</h3>
+              <p>
+                Selecciona el tipo de lavado o tratamiento que necesitas segun
+                tus preferencias.
+              </p>
+            </div>
+
+            <div className="step">
+              <div className="step-icon">⏰</div>
+              <h3>2. Seleccioná día y horario</h3>
+              <p>
+                Elegí el horario disponible que te quede más cómodo. Podés
+                cancelar o reprogramar hasta 2 horas antes del turno.
+              </p>
+            </div>
+
+            <div className="step">
+              <div className="step-icon">📧</div>
+              <h3>3. Confirmación por email</h3>
+              <p>
+                Una vez que completes el formulario, recibirás un correo con los
+                datos de tu reserva y recordatorios automáticos.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* Contacto Section */}
@@ -61,14 +104,31 @@ const Home = () => {
           <form className="contact-form">
             <div className="form-row">
               <input type="text" name="nombre" placeholder="Nombre" required />
-              <input type="text" name="apellido" placeholder="Apellido" required />
+              <input
+                type="text"
+                name="apellido"
+                placeholder="Apellido"
+                required
+              />
             </div>
             <div className="form-row">
               <input type="email" name="email" placeholder="Email" required />
-              <input type="tel" name="telefono" placeholder="Teléfono" required />
+              <input
+                type="tel"
+                name="telefono"
+                placeholder="Teléfono"
+                required
+              />
             </div>
-            <textarea name="consulta" placeholder="Escribe tu consulta aquí..." rows={4} required />
-            <button type="submit" className="enviar-btn">Enviar</button>
+            <textarea
+              name="consulta"
+              placeholder="Escribe tu consulta aquí..."
+              rows={4}
+              required
+            />
+            <button type="submit" className="enviar-btn">
+              Enviar
+            </button>
           </form>
         </section>
       </main>
