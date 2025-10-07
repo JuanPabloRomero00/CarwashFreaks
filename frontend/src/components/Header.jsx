@@ -25,9 +25,8 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Simulación de autenticación (reemplazar por lógica real)
-  // Cambia esto a 'true' para probar la UI de usuario autenticado
-  const isAuthenticated = true;
+  // Simulación de autenticación: Cambia esto a 'true' para probar la UI de usuario autenticado
+  const isAuthenticated = false;
 
   // Obtener items de navegación según estado de autenticación
   const getNavItems = () => {
@@ -42,10 +41,8 @@ const Header = () => {
 
   // Función para scroll suave a secciones
   const scrollToSection = (sectionId) => {
-    // Si no estamos en home, navegar primero
     if (location.pathname !== '/') {
       navigate('/');
-      // Pequeño delay para que la página cargue antes del scroll
       setTimeout(() => {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -53,7 +50,6 @@ const Header = () => {
         }
       }, 100);
     } else {
-      // Ya estamos en home, hacer scroll directo
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -61,10 +57,9 @@ const Header = () => {
     }
   };
 
-  // Manejar clicks en navegación
   const handleNavClick = (item, e) => {
     e.preventDefault();
-    setMenuOpen(false); // Cerrar menú móvil
+    setMenuOpen(false);
     
     if (item.isScroll) {
       scrollToSection(item.scrollTo);
@@ -86,19 +81,15 @@ const Header = () => {
   const handleLogout = (e) => {
     e.preventDefault();
     setMenuOpen(false);
-    // Aquí implementarías la lógica de logout real
-    // Por ahora solo navega a home
+    // Aca se va a implementar la logica del logout real, por ahora solo navega a home
     navigate('/');
-    // En el futuro: clearAuthToken(), resetUserState(), etc.
   };
 
   return (
     <header className="header">
       <div className="header-content">
-        {/* Logo */}
         <Link to="/" className="logo">CarwashFreaks</Link>
 
-        {/* Links - desktop */}
         <nav className="nav-links">
           {getNavItems().map(item => (
             <a 
@@ -124,7 +115,7 @@ const Header = () => {
           )}
         </nav>
 
-        {/* Hamburger menu for mobile */}
+        {/* menu hamburguesa para mobile */}
         <button
           className="hamburger"
           aria-label="Menu"

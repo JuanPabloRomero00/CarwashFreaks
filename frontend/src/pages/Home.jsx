@@ -10,10 +10,11 @@ const Home = () => {
   const contactoRef = useRef(null);
 
   const navigate = useNavigate();
-  // Simulación de autenticación (reemplazar por lógica real)
+
+  // Simulación de autenticación 
   const isAuthenticated = false;
 
-  // Scroll helpers para navegación interna
+  //navegación interna
   const scrollTo = (ref) =>
     ref.current && ref.current.scrollIntoView({ behavior: "smooth" });
 
@@ -29,10 +30,8 @@ const Home = () => {
     <div>
       <Header />
       <main style={{ marginTop: 60 }}>
-        {/* Hero Section */}
         <section id="hero" className="hero-section">
           <div className="hero-slider">
-            {/* Aquí iría el slider de imágenes, por ahora placeholder */}
             <img
               src="/img/carwash-section.png"
               alt="Carwash"
@@ -50,7 +49,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Servicios Section */}
         <section
           id="servicios"
           ref={serviciosRef}
@@ -59,7 +57,6 @@ const Home = () => {
           <Services />
         </section>
 
-        {/* Turnos Section */}
         <section id="turnos" ref={turnosRef} className="turnos-section">
           <h2>Turnos</h2>
           <p className="intro">
@@ -98,7 +95,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Contacto Section */}
         <section id="contacto" ref={contactoRef} className="contacto-section">
           <h2>Contacto</h2>
           <form className="contact-form">
