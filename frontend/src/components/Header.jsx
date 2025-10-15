@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 // Navegación pública (siempre visible)
@@ -22,11 +22,36 @@ const authNavItems = [
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [logoutMsg, setLogoutMsg] = useState('');
+  const [showLogoutOverlay, setShowLogoutOverlay] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Simulación de autenticación: Cambia esto a 'true' para probar la UI de usuario autenticado
-  const isAuthenticated = false;
+  // Autenticación centralizada
+  const { isAuthenticated, logout } = useAuth();
+
+  // Función para cerrar sesión
+  const handleLogout = async () => {
+    setShowLogoutOverlay(true);
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user._id) {
+      await fetch('/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: JSON.stringify({ userId: user._id })
+      });
+    }
+    logout();
+    setLogoutMsg('Sesión cerrada correctamente');
+    setTimeout(() => {
+      setLogoutMsg('');
+      setShowLogoutOverlay(false);
+      navigate('/');
+    }, 1200);
+  };
 
   // Obtener items de navegación según estado de autenticación
   const getNavItems = () => {
@@ -78,81 +103,113 @@ const Header = () => {
     }
   };
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    setMenuOpen(false);
-    // Aca se va a implementar la logica del logout real, por ahora solo navega a home
-    navigate('/');
-  };
-
   return (
-    <header className="header">
-      <div className="header-content">
-        <Link to="/" className="logo">CarwashFreaks</Link>
+    <>
+      <header className="header">
+        <div className="header-content">
+          <Link to="/" className="logo">CarwashFreaks</Link>
 
-        <nav className="nav-links">
-          {getNavItems().map(item => (
-            <a 
-              key={item.label} 
-              href="#" 
-              className="nav-link"
-              onClick={(e) => handleNavClick(item, e)}
-            >
-              {item.label}
-            </a>
-          ))}
-          {/* Botón reservar solo si NO está autenticado */}
-          {!isAuthenticated && (
-            <a href="#" className="nav-link reservar" onClick={handleReservarClick}>
-              Reservar turno
-            </a>
-          )}
-          {/* Botón logout solo si SÍ está autenticado */}
-          {isAuthenticated && (
-            <a href="#" className="nav-link" onClick={handleLogout}>
-              Cerrar Sesión
-            </a>
-          )}
-        </nav>
+          <nav className="nav-links">
+            {getNavItems().map(item => (
+              <a 
+                key={item.label} 
+                href="#" 
+                className="nav-link"
+                onClick={(e) => handleNavClick(item, e)}
+              >
+                {item.label}
+              </a>
+            ))}
+            {/* Botón reservar solo si NO está autenticado */}
+            {!isAuthenticated && (
+              <a href="#" className="nav-link reservar" onClick={handleReservarClick}>
+                Reservar turno
+              </a>
+            )}
+            {/* Botón logout solo si SÍ está autenticado */}
+            {isAuthenticated && (
+              <a href="#" className="nav-link" onClick={handleLogout}>
+                Cerrar Sesión
+              </a>
+            )}
+          </nav>
 
-        {/* menu hamburguesa para mobile */}
-        <button
-          className="hamburger"
-          aria-label="Menu"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <span style={{ fontSize: 28, color: '#222' }}>&#9776;</span>
-        </button>
-      </div>
+          {/* menu hamburguesa para mobile */}
+          <button
+            className="hamburger"
+            aria-label="Menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span style={{ fontSize: 28, color: '#222' }}>&#9776;</span>
+          </button>
+        </div>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <nav className="mobile-menu">
-          {getNavItems().map(item => (
-            <a 
-              key={item.label} 
-              href="#" 
-              className="nav-link"
-              onClick={(e) => handleNavClick(item, e)}
-            >
-              {item.label}
-            </a>
-          ))}
-          {/* Botón reservar solo si NO está autenticado */}
-          {!isAuthenticated && (
-            <a href="#" className="nav-link reservar" onClick={handleReservarClick}>
-              Reservar turno
-            </a>
-          )}
-          {/* Botón logout solo si SÍ está autenticado */}
-          {isAuthenticated && (
-            <a href="#" className="nav-link" onClick={handleLogout}>
-              Cerrar Sesión
-            </a>
-          )}
-        </nav>
+        {/* Mobile menu */}
+        {menuOpen && (
+          <nav className="mobile-menu">
+            {getNavItems().map(item => (
+              <a 
+                key={item.label} 
+                href="#" 
+                className="nav-link"
+                onClick={(e) => handleNavClick(item, e)}
+              >
+                {item.label}
+              </a>
+            ))}
+            {/* Botón reservar solo si NO está autenticado */}
+            {!isAuthenticated && (
+              <a href="#" className="nav-link reservar" onClick={handleReservarClick}>
+                Reservar turno
+              </a>
+            )}
+            {/* Botón logout solo si SÍ está autenticado */}
+            {isAuthenticated && (
+              <a href="#" className="nav-link" onClick={handleLogout}>
+                Cerrar Sesión
+              </a>
+            )}
+          </nav>
+        )}
+      </header>
+      {showLogoutOverlay && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(0,0,0,0.45)',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <div style={{
+            background: '#222',
+            borderRadius: 16,
+            boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+            padding: '40px 32px',
+            minWidth: 320,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            opacity: 0.98,
+          }}>
+            <div style={{ color: '#fff', fontSize: 26, fontWeight: 'bold', marginBottom: 24 }}>
+              {logoutMsg || 'Cerrando sesión...'}
+            </div>
+            <div style={{ width: 60, height: 60, border: '6px solid #fff', borderTop: '6px solid #00bcd4', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+            <style>{`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
+          </div>
+        </div>
       )}
-    </header>
+    </>
   );
 };
 

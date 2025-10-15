@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -11,8 +12,8 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  // Simulación de autenticación 
-  const isAuthenticated = false;
+  // Autenticación centralizada
+  const { isAuthenticated } = useAuth();
 
   //navegación interna
   const scrollTo = (ref) =>
@@ -20,7 +21,8 @@ const Home = () => {
 
   const handleReservarHero = () => {
     if (!isAuthenticated) {
-      navigate("/login");
+      localStorage.setItem('loginRedirect', '/dashboard');
+      navigate('/login');
     } else {
       scrollTo(turnosRef);
     }

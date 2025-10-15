@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
 import AppointmentsList from '../components/AppointmentsList';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../services/api';
 
 const Dashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
+    // Bloquear acceso si no está autenticado
+    if (!isAuthenticated) {
+      localStorage.setItem('loginRedirect', '/dashboard');
+      navigate('/login');
+      return;
+    }
     // Simular datos de turnos hasta conectar con backend real
     const mockAppointments = [
       {
@@ -30,13 +40,11 @@ const Dashboard = () => {
         notes: ''
       }
     ];
-    
-    // Simular loading
     setTimeout(() => {
       setAppointments(mockAppointments);
       setLoading(false);
     }, 500);
-  }, []);
+  }, [navigate, isAuthenticated]);
 
   if (loading) {
     return (

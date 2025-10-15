@@ -30,3 +30,7 @@ exports.saveRefreshToken = async (userId, refreshToken) => {
 exports.findByEmail = async (email) => {
 	return await User.findOne({ email });
 };
+
+exports.getAllUsers = async () => {
+	return await User.find();
+};

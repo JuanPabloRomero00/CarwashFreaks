@@ -14,9 +14,19 @@ exports.getUsers = async (req, res, next) => {
 // POST /users (registro)
 exports.createUser = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { nombre, apellido, email, telefono, password } = req.body;
+    if (!nombre || !apellido || !email || !telefono || !password) {
+      return next({ status: 400, message: 'Todos los campos son obligatorios.' });
+    }
+    // Validación básica de email y password
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      return next({ status: 400, message: 'El correo electrónico no es válido.' });
+    }
+    if (password.length < 6) {
+      return next({ status: 400, message: 'La contraseña debe tener al menos 6 caracteres.' });
+    }
     const exists = await userService.findByEmail(email);
-  if (exists) return next({ status: 409, message: 'Email ya registrado' });
+    if (exists) return next({ status: 409, message: 'Email ya registrado.' });
     const user = await userService.createUser(req.body);
     const tokens = userService.generateTokens(user);
     await userService.saveRefreshToken(user._id, tokens.refreshToken);
