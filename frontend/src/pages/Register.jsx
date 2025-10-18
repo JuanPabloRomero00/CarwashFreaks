@@ -33,11 +33,15 @@ const Register = () => {
         body: JSON.stringify(form)
       });
       if (!res.ok) {
-        const data = await res.json();
+      const data = await res.json();
+      if (data.message === 'La contraseña debe tener al menos 6 caracteres.') {
+        setError('La contraseña debe tener al menos 6 caracteres.');
+      } else {
         setError(data.message || 'Error al registrar usuario');
-        setLoading(false);
-        return;
       }
+      setLoading(false);
+      return;
+    }
       navigate('/login');
     } catch (err) {
       setError('Error de red o servidor');

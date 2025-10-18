@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 
 // Custom hook para autenticación centralizada
 export function useAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('accessToken'));
+  const [user, setUser] = useState(() => {
+    const userData = localStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
+  });
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -11,7 +14,7 @@ export function useAuth() {
     setIsAuthenticated(!!token);
     setUser(userData ? JSON.parse(userData) : null);
   }, []);
-
+  
   // Permite refrescar el estado manualmente (ej: tras login/logout)
   const refreshAuth = () => {
     const token = localStorage.getItem('accessToken');

@@ -96,10 +96,14 @@ const Header = () => {
   const handleReservarClick = (e) => {
     e.preventDefault();
     setMenuOpen(false);
+
     if (!isAuthenticated) {
+      // Si no está autenticado, guardar la redirección y enviar al login
+      localStorage.setItem('loginRedirect', '/user-appointments');
       navigate('/login');
     } else {
-      navigate('/dashboard');
+      // Si está autenticado, redirigir directamente a UserAppointments
+      navigate('/user-appointments');
     }
   };
 

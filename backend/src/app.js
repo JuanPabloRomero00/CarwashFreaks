@@ -3,6 +3,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const routes = require('./routes/index');
 const errorMiddleware = require('./middlewares/error.middleware');
+const autoCompleteAppointments = require('./autoCompleteAppointments');
 
 const app = express();
 
@@ -15,6 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Todas las rutas pasan por el router centralizado
 app.use(routes);
+
+// Ejecutar auto-completado de turnos al iniciar la app
+autoCompleteAppointments();
 
 // Middleware de manejo de errores
 app.use(errorMiddleware);

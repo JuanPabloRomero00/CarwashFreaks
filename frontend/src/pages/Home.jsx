@@ -20,13 +20,13 @@ const Home = () => {
     ref.current && ref.current.scrollIntoView({ behavior: "smooth" });
 
   const handleReservarHero = () => {
-    if (!isAuthenticated) {
-      localStorage.setItem('loginRedirect', '/dashboard');
-      navigate('/login');
-    } else {
-      scrollTo(turnosRef);
-    }
-  };
+  if (!isAuthenticated) {
+    localStorage.setItem('loginRedirect', '/user-appointments');
+    navigate('/login');
+  } else {
+    navigate('/user-appointments');
+  }
+};
 
   return (
     <div>

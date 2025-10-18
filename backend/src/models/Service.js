@@ -7,6 +7,7 @@ const serviceSchema = new mongoose.Schema({
   duration: { type: Number, required: true }, // minutos
   features: [{ type: String }],
   isActive: { type: Boolean, default: true },
+  image: { type: String },
   createdAt: { type: Date, default: Date.now }
 });
 

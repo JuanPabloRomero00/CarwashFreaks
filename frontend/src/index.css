@@ -1,3 +1,155 @@
+/* --- TakeAppointmentFlow styles --- */
+.take-appointment-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  width: 100%;
+}
+.take-appointment-box {
+  max-width: 480px;
+  width: 90vw;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 2rem 1.5rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.take-appointment-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+.take-appointment-search {
+  margin-bottom: 1rem;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  font-size: 1rem;
+}
+.service-list {
+  width: 100%;
+}
+.service-card-selectable {
+  cursor: pointer;
+  margin-bottom: 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fafafa;
+  transition: border 0.2s;
+}
+.service-card-selectable.selected {
+  border: 2px solid #6c63ff;
+}
+.service-card-title {
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+.service-card-desc {
+  color: #555;
+  margin-bottom: 8px;
+}
+.service-card-price {
+  font-weight: bold;
+  color: #222;
+}
+.take-appointment-actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+.take-appointment-step2 {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.take-appointment-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.take-appointment-date {
+  margin-top: 8px;
+  margin-bottom: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  width: 100%;
+  font-size: 1rem;
+}
+.take-appointment-times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.btn-primary {
+  padding: 10px 32px;
+  font-size: 1rem;
+  border-radius: 8px;
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+.btn-secondary {
+  background: #eee;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.btn-secondary.selected {
+  background: #6c63ff;
+  color: #fff;
+}
+.confirm-card {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+}
+.confirm-card-date,
+.confirm-card-time {
+  margin-top: 12px;
+  font-weight: bold;
+}
+.take-appointment-error {
+  color: red;
+  margin-bottom: 1rem;
+}
+.take-appointment-extra {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.take-appointment-payments {
+  display: flex;
+  gap: 8px;
+}
+@media (max-width: 600px) {
+  .take-appointment-box {
+    max-width: 98vw;
+    padding: 1rem 0.5rem;
+  }
+  .take-appointment-title {
+    font-size: 1.3rem;
+  }
+}
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 /* Login page styles */

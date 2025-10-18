@@ -1,13 +1,13 @@
 import React from 'react';
 
-const AppointmentsList = ({ appointments }) => {
-  if (!appointments || appointments.length === 0) {
+const AppointmentsList = ({ appointments, onCancelAppointment }) => {
+  const activeAppointments = appointments ? appointments.filter(a => a.status !== 'cancelled') : [];
+  if (activeAppointments.length === 0) {
     return (
       <section className="appointments-section">
         <h2>Mis Turnos</h2>
         <div className="empty-state">
           <p>No tienes turnos programados</p>
-          <button className="btn-primary">Reservar primer turno</button>
         </div>
       </section>
     );
@@ -17,10 +17,10 @@ const AppointmentsList = ({ appointments }) => {
     <section className="appointments-section">
       <h2>Mis Turnos</h2>
       <div className="appointments-grid">
-        {appointments.map(appointment => (
-          <div key={appointment.id} className="appointment-card">
+        {activeAppointments.map(appointment => (
+          <div key={appointment._id || appointment.id} className="appointment-card">
             <div className="appointment-header">
-              <h3>{appointment.serviceName}</h3>
+              <h3>{appointment.service?.name || appointment.serviceName}</h3>
               <span className={`status status-${appointment.status}`}>
                 {appointment.status === 'pending' && 'Pendiente'}
                 {appointment.status === 'confirmed' && 'Confirmado'}
@@ -28,7 +28,7 @@ const AppointmentsList = ({ appointments }) => {
                 {appointment.status === 'completed' && 'Completado'}
               </span>
             </div>
-            
+
             <div className="appointment-details">
               <div className="detail-item">
                 <span className="label">Fecha:</span>
@@ -40,8 +40,14 @@ const AppointmentsList = ({ appointments }) => {
               </div>
               <div className="detail-item">
                 <span className="label">Precio:</span>
-                <span className="value">${appointment.price}</span>
+                <span className="value">${appointment.service?.price || appointment.price}</span>
               </div>
+              {appointment.service?.name && (
+                <div className="detail-item">
+                  <span className="label">Servicio:</span>
+                  <span className="value">{appointment.service.name}</span>
+                </div>
+              )}
               {appointment.notes && (
                 <div className="detail-item">
                   <span className="label">Notas:</span>
@@ -53,16 +59,13 @@ const AppointmentsList = ({ appointments }) => {
             <div className="appointment-actions">
               {appointment.status === 'pending' && (
                 <>
-                  <button className="btn-secondary" onClick={() => handleModify(appointment.id)}>
-                    Modificar
-                  </button>
-                  <button className="btn-danger" onClick={() => handleCancel(appointment.id)}>
+                  <button className="btn-danger" onClick={() => onCancelAppointment && onCancelAppointment(appointment._id)}>
                     Cancelar
                   </button>
                 </>
               )}
               {appointment.status === 'confirmed' && (
-                <button className="btn-danger" onClick={() => handleCancel(appointment.id)}>
+                <button className="btn-danger" onClick={() => onCancelAppointment && onCancelAppointment(appointment._id)}>
                   Cancelar
                 </button>
               )}
@@ -74,15 +77,6 @@ const AppointmentsList = ({ appointments }) => {
   );
 };
 
-// Funciones placeholder - después conectar con APIs
-const handleModify = (appointmentId) => {
-  console.log('Modificar turno:', appointmentId);
-};
 
-const handleCancel = (appointmentId) => {
-  if (confirm('¿Estás seguro de cancelar este turno?')) {
-    console.log('Cancelar turno:', appointmentId);
-  }
-};
 
 export default AppointmentsList;

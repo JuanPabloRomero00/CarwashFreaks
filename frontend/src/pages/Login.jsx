@@ -32,14 +32,16 @@ const Login = () => {
         setLoading(false);
         return;
       }
-  // Guardar access token y usuario en localStorage
-  localStorage.setItem('accessToken', data.accessToken);
-  localStorage.setItem('user', JSON.stringify(data.user));
-  refreshAuth();
-  // Redirigir según origen
-  const redirectTo = localStorage.getItem('loginRedirect') || '/';
-  localStorage.removeItem('loginRedirect');
-  navigate(redirectTo);
+      // Guardo el access token y usuario en localStorage
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      refreshAuth();
+      // Espera breve para que el estado se actualice antes de redirigir
+      setTimeout(() => {
+        const redirectTo = localStorage.getItem('loginRedirect') || '/';
+        localStorage.removeItem('loginRedirect');
+        navigate(redirectTo);
+      }, 120);
     } catch (err) {
       setError('Error de red o servidor');
       setLoading(false);
