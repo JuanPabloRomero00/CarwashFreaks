@@ -1,10 +1,10 @@
 const User = require('../models/User');
-const { comparePassword } = require('../hash');
+const { comparePassword } = require('../utils/hash');
 const {
   generateAccessToken,
   generateRefreshToken,
   verifyRefreshToken
-} = require('../token');
+} = require('../utils/token');
 
 exports.login = async (email, password) => {
   const user = await User.findOne({ email });

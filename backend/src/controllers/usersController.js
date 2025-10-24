@@ -1,5 +1,5 @@
 const userService = require('../services/users.service');
-const { comparePassword } = require('../hash');
+const { comparePassword } = require('../utils/hash');
 
 // GET /users (solo admin)
 exports.getUsers = async (req, res, next) => {

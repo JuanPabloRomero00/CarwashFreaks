@@ -1,11 +1,11 @@
 const User = require('../models/User');
-const { hashPassword, comparePassword } = require('../hash');
+const { hashPassword, comparePassword } = require('../utils/hash');
 const {
 	generateAccessToken,
 	generateRefreshToken,
 	verifyAccessToken,
 	verifyRefreshToken
-} = require('../token');
+} = require('../utils/token');
 
 
 exports.createUser = async (userData) => {
