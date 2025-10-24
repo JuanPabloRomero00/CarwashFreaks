@@ -3,7 +3,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const routes = require('./routes/index');
 const errorMiddleware = require('./middlewares/error.middleware');
-const autoCompleteAppointments = require('./autoCompleteAppointments');
+const autoCompleteAppointments = require('../scripts/autoCompleteAppointments');
 
 const app = express();
 

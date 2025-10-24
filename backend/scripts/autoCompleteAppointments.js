@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const Appointment = require('./models/Appointment');
+const Appointment = require('../src/models/Appointment');
 
 async function autoCompleteAppointments() {
   const now = new Date();
