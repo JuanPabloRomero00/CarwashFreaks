@@ -28,7 +28,3 @@ Para registrar un usuario con rol "admin" accedé a la siguiente URL (solo si co
 ```
 POST /users/admin/register?secret=TU_CLAVE_ADMIN
 ```
-
-La clave debe estar definida en la variable de entorno `ADMIN_REGISTER_SECRET`.
-
-> No expongas esta URL en el frontend público. Compartila solo con el administrador.
