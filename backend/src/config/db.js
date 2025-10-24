@@ -9,8 +9,7 @@ const connectDB = async () => {
     });
     console.log('MongoDB connected');
   } catch (error) {
-    // Lanzar el error para que lo capture Express
-    throw { status: 500, message: 'Error de conexión a la base de datos', original: error };
+    console.error('Error de conexión a la base de datos:', error);
   }
 };
 

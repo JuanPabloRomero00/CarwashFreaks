@@ -9,8 +9,10 @@ const {
 exports.login = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) return null;
+
   const valid = await comparePassword(password, user.password);
   if (!valid) return null;
+  
   const payload = { id: user._id, email: user.email, role: user.role };
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);

@@ -31,7 +31,6 @@ const UserAppointments = () => {
       return;
     }
 
-    // Obtener turnos desde el backend
     const fetchUserAppointments = async () => {
       try {
         console.log('Fetching appointments from backend...');

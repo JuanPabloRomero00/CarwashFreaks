@@ -9,13 +9,9 @@ const Home = () => {
   const serviciosRef = useRef(null);
   const turnosRef = useRef(null);
   const contactoRef = useRef(null);
-
   const navigate = useNavigate();
-
-  // Autenticación centralizada
   const { isAuthenticated } = useAuth();
 
-  //navegación interna
   const scrollTo = (ref) =>
     ref.current && ref.current.scrollIntoView({ behavior: "smooth" });
 

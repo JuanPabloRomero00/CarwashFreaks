@@ -36,7 +36,7 @@ const Login = () => {
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('user', JSON.stringify(data.user));
       refreshAuth();
-      // Espera breve para que el estado se actualice antes de redirigir
+      // breve delay antes de redirigir
       setTimeout(() => {
         const redirectTo = localStorage.getItem('loginRedirect') || '/';
         localStorage.removeItem('loginRedirect');
@@ -54,7 +54,6 @@ const Login = () => {
       <main className="login-main">
         <section className="login-section">
           <div className="login-left">
-            {/* <img src="/img/carwash-section.png" alt="CarwashFreaks" className="login-img" /> */}
             <div className="login-logo">CarwashFreaks</div>
           </div>
           <div className="login-right">

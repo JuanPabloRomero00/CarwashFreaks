@@ -26,11 +26,8 @@ const Header = () => {
   const [showLogoutOverlay, setShowLogoutOverlay] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Autenticación centralizada
   const { isAuthenticated, logout } = useAuth();
 
-  // Función para cerrar sesión
   const handleLogout = async () => {
     setShowLogoutOverlay(true);
     const user = JSON.parse(localStorage.getItem('user'));
@@ -98,11 +95,9 @@ const Header = () => {
     setMenuOpen(false);
 
     if (!isAuthenticated) {
-      // Si no está autenticado, guardar la redirección y enviar al login
       localStorage.setItem('loginRedirect', '/user-appointments');
       navigate('/login');
     } else {
-      // Si está autenticado, redirigir directamente a UserAppointments
       navigate('/user-appointments');
     }
   };
@@ -124,13 +119,11 @@ const Header = () => {
                 {item.label}
               </a>
             ))}
-            {/* Botón reservar solo si NO está autenticado */}
             {!isAuthenticated && (
               <a href="#" className="nav-link reservar" onClick={handleReservarClick}>
                 Reservar turno
               </a>
             )}
-            {/* Botón logout solo si SÍ está autenticado */}
             {isAuthenticated && (
               <a href="#" className="nav-link" onClick={handleLogout}>
                 Cerrar Sesión
@@ -138,7 +131,6 @@ const Header = () => {
             )}
           </nav>
 
-          {/* menu hamburguesa para mobile */}
           <button
             className="hamburger"
             aria-label="Menu"
@@ -148,7 +140,6 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
           <nav className="mobile-menu">
             {getNavItems().map(item => (
@@ -161,13 +152,11 @@ const Header = () => {
                 {item.label}
               </a>
             ))}
-            {/* Botón reservar solo si NO está autenticado */}
             {!isAuthenticated && (
               <a href="#" className="nav-link reservar" onClick={handleReservarClick}>
                 Reservar turno
               </a>
             )}
-            {/* Botón logout solo si SÍ está autenticado */}
             {isAuthenticated && (
               <a href="#" className="nav-link" onClick={handleLogout}>
                 Cerrar Sesión

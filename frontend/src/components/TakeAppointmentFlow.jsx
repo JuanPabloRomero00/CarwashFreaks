@@ -11,7 +11,6 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Cargar servicios desde el backend
     const fetchServices = async () => {
       try {
         const res = await fetch('/services');
@@ -24,10 +23,8 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
     fetchServices();
   }, []);
 
-  // Horarios disponibles (mock)
   const horarios = ['9:30hs', '10:00hs', '11:30hs', '12:30hs', '15:00hs', '17:30hs'];
 
-  // Paso 1: Selección de servicio
   if (step === 1) {
     return (
       <section className="take-appointment-section">
@@ -67,14 +64,11 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
     );
   }
 
-  // Paso 2: Selección de fecha y horario
   if (step === 2) {
-    // Validaciones de fecha y hora
     const today = new Date();
     const selectedDate = date ? new Date(date) : null;
     const isPastDate = selectedDate && selectedDate.setHours(0,0,0,0) < today.setHours(0,0,0,0);
 
-    // Validar horarios pasados si es el día actual
     let horariosValidos = horarios;
     if (selectedDate && selectedDate.setHours(0,0,0,0) === today.setHours(0,0,0,0)) {
       const nowMinutes = today.getHours() * 60 + today.getMinutes();
@@ -135,7 +129,6 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
     );
   }
 
-  // Paso 3: Confirmación
   if (step === 3) {
     return (
       <section className="take-appointment-section">
@@ -177,7 +170,6 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
     );
   }
 
-  // Paso 4: Turno reservado
   if (step === 4) {
     return (
       <section className="take-appointment-section">

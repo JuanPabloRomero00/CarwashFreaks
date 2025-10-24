@@ -16,7 +16,6 @@ exports.createAppointment = async (data) => {
   }
   // Si es el día actual, validar hora
   if (selectedDate.setHours(0,0,0,0) === now.setHours(0,0,0,0)) {
-    // data.time formato "HH:mmhs"
     const [hora, min] = data.time.replace('hs','').split(':');
     const turnoMin = parseInt(hora) * 60 + parseInt(min);
     const nowMin = now.getHours() * 60 + now.getMinutes();
@@ -33,10 +32,8 @@ exports.createAppointment = async (data) => {
 
 exports.cancelAppointment = async (id, userId, isAdmin = false) => {
   const appointment = await Appointment.findById(id);
-  console.log('[CANCEL TURN] intento:', { turnoId: id, userAuth: userId, userTurno: appointment?.user?.toString(), isAdmin });
   if (!appointment) return null;
   if (!isAdmin && appointment.user.toString() !== userId.toString()) {
-    console.log('[CANCEL TURN] Permiso denegado:', { userAuth: userId.toString(), userTurno: appointment.user.toString() });
     return null;
   }
   appointment.status = 'cancelled';

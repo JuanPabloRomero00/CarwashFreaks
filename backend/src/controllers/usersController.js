@@ -11,7 +11,6 @@ exports.getUsers = async (req, res, next) => {
   }
 };
 
-// POST /users (registro)
 exports.createUser = async (req, res, next) => {
   try {
     const { nombre, apellido, email, telefono, password } = req.body;
@@ -36,7 +35,6 @@ exports.createUser = async (req, res, next) => {
   }
 };
 
-// POST /users/login
 exports.loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;

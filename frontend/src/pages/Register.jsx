@@ -55,7 +55,6 @@ const Register = () => {
       <main className="login-main">
         <section className="login-section">
           <div className="login-left">
-            {/* <img src={imgHero} alt="CarwashFreaks" className="login-img" /> */}
             <div className="login-logo">CarwashFreaks</div>
           </div>
           <div className="login-right">

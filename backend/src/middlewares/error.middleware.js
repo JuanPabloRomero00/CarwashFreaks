@@ -1,7 +1,5 @@
 module.exports = (err, req, res, next) => {
-	// Log interno para debugging
-	console.error('Error:', err);
-
+	
 	const status = err.status || 500;
 	let message = err.message || 'Ocurrió un error inesperado.';
 
