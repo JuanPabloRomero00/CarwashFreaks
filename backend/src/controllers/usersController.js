@@ -69,3 +69,26 @@ exports.createAdmin = async (req, res, next) => {
     next(error);
   }
 };
+
+// PUT /users/:id (solo admin)
+exports.updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    
+    // No permitir cambiar email a uno que ya existe
+    if (updateData.email) {
+      const existingUser = await userService.findByEmail(updateData.email);
+      if (existingUser && existingUser._id.toString() !== id) {
+        return next({ status: 409, message: 'Email ya está en uso' });
+      }
+    }
+    
+    const user = await userService.updateUser(id, updateData);
+    if (!user) return next({ status: 404, message: 'Usuario no encontrado' });
+    
+    res.json({ message: 'Usuario actualizado exitosamente', user });
+  } catch (error) {
+    next(error);
+  }
+};

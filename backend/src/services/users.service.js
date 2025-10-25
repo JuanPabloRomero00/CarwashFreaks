@@ -34,3 +34,15 @@ exports.findByEmail = async (email) => {
 exports.getAllUsers = async () => {
 	return await User.find();
 };
+
+exports.updateUser = async (id, updateData) => {
+	// Si se está actualizando la contraseña, hashearla
+	if (updateData.password) {
+		updateData.password = await hashPassword(updateData.password);
+	}
+	
+	return await User.findByIdAndUpdate(id, updateData, { 
+		new: true, 
+		runValidators: true 
+	});
+};

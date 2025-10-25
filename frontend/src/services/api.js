@@ -57,3 +57,114 @@ export async function createAppointment(appointmentData) {
 
   return response.json();
 }
+
+// Admin API functions
+export async function fetchAllUsers() {
+  const token = localStorage.getItem('accessToken');
+  const response = await fetch('/users', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error fetching users');
+  }
+
+  return response.json();
+}
+
+export async function fetchAllAppointments() {
+  const token = localStorage.getItem('accessToken');
+  const response = await fetch('/appointments/all', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error fetching appointments');
+  }
+
+  return response.json();
+}
+
+export async function fetchAllServices() {
+  const response = await fetch('/services', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error fetching services');
+  }
+
+  return response.json();
+}
+
+// Admin Edit/Update functions
+export async function updateUser(userId, userData) {
+  const token = localStorage.getItem('accessToken');
+  const response = await fetch(`/users/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error updating user');
+  }
+
+  return response.json();
+}
+
+export async function updateAppointment(appointmentId, appointmentData) {
+  const token = localStorage.getItem('accessToken');
+  const response = await fetch(`/appointments/${appointmentId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(appointmentData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error updating appointment');
+  }
+
+  return response.json();
+}
+
+export async function updateService(serviceId, serviceData) {
+  const token = localStorage.getItem('accessToken');
+  const response = await fetch(`/services/${serviceId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(serviceData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error updating service');
+  }
+
+  return response.json();
+}

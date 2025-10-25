@@ -26,7 +26,12 @@ const Header = () => {
   const [showLogoutOverlay, setShowLogoutOverlay] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
+
+  // Función para determinar si el usuario es admin
+  const isAdmin = () => {
+    return user && user.role === 'admin';
+  };
 
   const handleLogout = async () => {
     setShowLogoutOverlay(true);
@@ -50,11 +55,15 @@ const Header = () => {
     }, 1200);
   };
 
-  // Obtener items de navegación según estado de autenticación
+  // Obtener items de navegación según estado de autenticación y rol
   const getNavItems = () => {
     const items = [...publicNavItems];
     if (isAuthenticated) {
       items.push(...authNavItems);
+      // Si es admin, agregar Panel de Admin
+      if (isAdmin()) {
+        items.push({ label: 'Panel Admin', to: '/admin', isScroll: false });
+      }
     } else {
       items.push(...guestNavItems);
     }
@@ -106,13 +115,18 @@ const Header = () => {
     <>
       <header className="header">
         <div className="header-content">
-          <Link to="/" className="logo">CarwashFreaks</Link>
+          <Link to="/" className="logo">
+            CarwashFreaks
+            {isAdmin() && (
+              <span className="admin-badge">ADMIN</span>
+            )}
+          </Link>
 
           <nav className="nav-links">
             {getNavItems().map(item => (
               <a 
                 key={item.label} 
-                href="#" 
+                href="#"
                 className="nav-link"
                 onClick={(e) => handleNavClick(item, e)}
               >
@@ -145,7 +159,7 @@ const Header = () => {
             {getNavItems().map(item => (
               <a 
                 key={item.label} 
-                href="#" 
+                href="#"
                 className="nav-link"
                 onClick={(e) => handleNavClick(item, e)}
               >

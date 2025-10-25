@@ -8,6 +8,8 @@ router.get('/', authMiddleware, rbacMiddleware(['admin']), userController.getUse
 
 router.post('/', userController.createUser);
 
+router.put('/:id', authMiddleware, rbacMiddleware(['admin']), userController.updateUser);
+
 router.post('/admin/register', userController.createAdmin);
 
 module.exports = router;
