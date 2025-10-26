@@ -11,6 +11,9 @@ import {
   updateAppointment,
   updateService
 } from '../services/api';
+import UsersView from '../components/UsersView';
+import AppointmentsView from '../components/AppointmentsView';
+import ServicesView from '../components/ServicesView';
 
 const AdminPanel = () => {
   const [activeView, setActiveView] = useState('users');
@@ -20,7 +23,7 @@ const AdminPanel = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  // Estados para modales de edición
+  // Estados para el modo de edición
   const [editModal, setEditModal] = useState({ show: false, type: '', data: null });
   const [editForm, setEditForm] = useState({});
   const [updating, setUpdating] = useState(false);
@@ -28,14 +31,14 @@ const AdminPanel = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Verificar que el usuario sea admin
+
   useEffect(() => {
     if (!isAuthenticated || !user || user.role !== 'admin') {
       navigate('/');
     }
   }, [isAuthenticated, user, navigate]);
 
-  // Función para obtener usuarios
+
   const fetchUsersData = async () => {
     setLoading(true);
     setError('');
@@ -49,7 +52,7 @@ const AdminPanel = () => {
     }
   };
 
-  // Función para obtener turnos
+
   const fetchAppointmentsData = async () => {
     setLoading(true);
     setError('');
@@ -63,7 +66,7 @@ const AdminPanel = () => {
     }
   };
 
-  // Función para obtener servicios
+
   const fetchServicesData = async () => {
     setLoading(true);
     setError('');
@@ -77,7 +80,7 @@ const AdminPanel = () => {
     }
   };
 
-  // Cargar datos según la vista activa
+
   useEffect(() => {
     switch (activeView) {
       case 'users':
@@ -94,7 +97,7 @@ const AdminPanel = () => {
     }
   }, [activeView]);
 
-  // Funciones para manejar edición
+
   const openEditModal = (type, data) => {
     setEditModal({ show: true, type, data });
     setEditForm({ ...data });
@@ -112,18 +115,24 @@ const AdminPanel = () => {
 
     try {
       const { type, data } = editModal;
-      
+      let payload = { ...editForm };
+
+      // Seguridad: nunca enviar password si no se está cambiando
+      if (type === 'user' && !payload.newPassword) {
+        delete payload.password;
+      }
+
       switch (type) {
         case 'user':
-          await updateUser(data._id, editForm);
+          await updateUser(data._id, payload);
           await fetchUsersData();
           break;
         case 'appointment':
-          await updateAppointment(data._id, editForm);
+          await updateAppointment(data._id, payload);
           await fetchAppointmentsData();
           break;
         case 'service':
-          await updateService(data._id, editForm);
+          await updateService(data._id, payload);
           await fetchServicesData();
           break;
       }
@@ -139,146 +148,6 @@ const AdminPanel = () => {
   const handleFormChange = (field, value) => {
     setEditForm(prev => ({ ...prev, [field]: value }));
   };
-
-  // Componente para mostrar usuarios
-  const UsersView = () => (
-    <div className="admin-table-container">
-      <h3>Usuarios Registrados</h3>
-      {users.length === 0 ? (
-        <p>No hay usuarios registrados</p>
-      ) : (
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>Teléfono</th>
-              <th>Rol</th>
-              <th>Fecha Registro</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user => (
-              <tr key={user._id}>
-                <td>{user.nombre} {user.apellido}</td>
-                <td>{user.email}</td>
-                <td>{user.telefono}</td>
-                <td>
-                  <span className={`role-badge ${user.role}`}>
-                    {user.role === 'admin' ? 'Admin' : 'Usuario'}
-                  </span>
-                </td>
-                <td>{new Date(user.timestamp).toLocaleDateString()}</td>
-                <td>
-                  <button 
-                    className="edit-btn"
-                    onClick={() => openEditModal('user', user)}
-                  >
-                    Editar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-
-  // Componente para mostrar turnos
-  const AppointmentsView = () => (
-    <div className="admin-table-container">
-      <h3>Turnos Programados</h3>
-      {appointments.length === 0 ? (
-        <p>No hay turnos programados</p>
-      ) : (
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Servicio</th>
-              <th>Fecha</th>
-              <th>Hora</th>
-              <th>Estado</th>
-              <th>Precio</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {appointments.map(appointment => (
-              <tr key={appointment._id}>
-                <td>{appointment.user?.nombre} {appointment.user?.apellido}</td>
-                <td>{appointment.service?.name}</td>
-                <td>{new Date(appointment.date).toLocaleDateString()}</td>
-                <td>{appointment.time}</td>
-                <td>
-                  <span className={`status-badge ${appointment.status}`}>
-                    {appointment.status}
-                  </span>
-                </td>
-                <td>${appointment.service?.price}</td>
-                <td>
-                  <button 
-                    className="edit-btn"
-                    onClick={() => openEditModal('appointment', appointment)}
-                  >
-                    Editar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-
-  // Componente para mostrar servicios
-  const ServicesView = () => (
-    <div className="admin-table-container">
-      <h3>Servicios Disponibles</h3>
-      {services.length === 0 ? (
-        <p>No hay servicios disponibles</p>
-      ) : (
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Precio</th>
-              <th>Duración</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {services.map(service => (
-              <tr key={service._id}>
-                <td>{service.name}</td>
-                <td>{service.description}</td>
-                <td>${service.price}</td>
-                <td>{service.duration} min</td>
-                <td>
-                  <span className={`status-badge ${service.isActive ? 'active' : 'inactive'}`}>
-                    {service.isActive ? 'Activo' : 'Inactivo'}
-                  </span>
-                </td>
-                <td>
-                  <button 
-                    className="edit-btn"
-                    onClick={() => openEditModal('service', service)}
-                  >
-                    Editar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
 
   if (!isAuthenticated || !user || user.role !== 'admin') {
     return null;
@@ -330,11 +199,17 @@ const AdminPanel = () => {
         )}
 
         {!loading && !error && (
-          <>
-            {activeView === 'users' && <UsersView />}
-            {activeView === 'appointments' && <AppointmentsView />}
-            {activeView === 'services' && <ServicesView />}
-          </>
+          <div>
+            {activeView === 'users' && (
+              <UsersView users={users} openEditModal={openEditModal} />
+            )}
+            {activeView === 'appointments' && (
+              <AppointmentsView appointments={appointments} openEditModal={openEditModal} />
+            )}
+            {activeView === 'services' && (
+              <ServicesView services={services} openEditModal={openEditModal} />
+            )}
+          </div>
         )}
       </div>
 

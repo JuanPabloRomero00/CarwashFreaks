@@ -26,3 +26,7 @@ coverage/
 # Exclusiones también en la raíz
 .env
 dist/
+
+#vitest cache
+.vitest/
+.vite/

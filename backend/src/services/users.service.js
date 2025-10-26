@@ -36,13 +36,14 @@ exports.getAllUsers = async () => {
 };
 
 exports.updateUser = async (id, updateData) => {
-	// Si se está actualizando la contraseña, hashearla
-	if (updateData.password) {
-		updateData.password = await hashPassword(updateData.password);
-	}
-	
-	return await User.findByIdAndUpdate(id, updateData, { 
-		new: true, 
-		runValidators: true 
-	});
+    // Solo actualizar password si viene y no está vacío
+    if (updateData.password && updateData.password.trim() !== "") {
+        updateData.password = await hashPassword(updateData.password);
+    } else {
+        delete updateData.password;
+    }
+    return await User.findByIdAndUpdate(id, updateData, { 
+        new: true, 
+        runValidators: true 
+    });
 };

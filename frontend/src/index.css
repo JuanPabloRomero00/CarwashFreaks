@@ -929,14 +929,14 @@ body {
   margin: 80px auto 40px;
   padding: 20px;
   font-family: 'Roboto', sans-serif;
-  min-height: calc(100vh - 140px); /* Ajustado para header y footer */
+  min-height: calc(100vh - 140px);
 }
 
 .admin-header {
   text-align: center;
   margin-bottom: 40px;
   padding: 30px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(black, #5e5e5e);
   color: white;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -964,9 +964,9 @@ body {
 
 .admin-nav-btn {
   padding: 12px 24px;
-  border: 2px solid #667eea;
+  border: 2px solid #000000;
   background: white;
-  color: #667eea;
+  color: #212121;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
@@ -976,14 +976,14 @@ body {
 }
 
 .admin-nav-btn:hover {
-  background: #667eea;
+  background: #171719;
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .admin-nav-btn.active {
-  background: #667eea;
+  background: #171719;
   color: white;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
@@ -1050,7 +1050,7 @@ body {
 }
 
 .role-badge.user {
-  background: #51cf66;
+  background:#4a5568;
   color: white;
 }
 
@@ -1171,7 +1171,7 @@ body {
 
 /* Edit Button Styles */
 .edit-btn {
-  background: #667eea;
+  background: #171719;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -1183,7 +1183,7 @@ body {
 }
 
 .edit-btn:hover {
-  background: #5a67d8;
+  background: #424774;
 }
 
 /* Modal Styles */
@@ -1315,7 +1315,7 @@ body {
 }
 
 .btn-save {
-  background: #667eea;
+  background: #171719;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -1326,7 +1326,7 @@ body {
 }
 
 .btn-save:hover {
-  background: #5a67d8;
+  background: #424774;
 }
 
 .btn-save:disabled {
