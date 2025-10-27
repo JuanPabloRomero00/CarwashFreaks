@@ -168,3 +168,21 @@ export async function updateService(serviceId, serviceData) {
 
   return response.json();
 }
+
+export const forgotPassword = async (email) => {
+  const res = await fetch('/users/forgot-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+  return res.json();
+};
+
+export const resetPassword = async (token, password) => {
+  const res = await fetch('/users/reset-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, password })
+  });
+  return res.json();
+};

@@ -64,6 +64,13 @@ const Login = () => {
               <input type="password" name="password" placeholder="Contraseña" required value={form.password} onChange={handleChange} />
               <button type="submit" className="login-btn-full" disabled={loading}>Iniciar sesión</button>
               <button type="button" className="register-btn" onClick={() => navigate('/register')}>Registrarse</button>
+              <button
+                type="button"
+                className="link-button"
+                onClick={() => navigate('/forgot-password')}
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
             </form>
           </div>
         </section>

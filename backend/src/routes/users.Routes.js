@@ -12,4 +12,8 @@ router.put('/:id', authMiddleware, rbacMiddleware(['admin']), userController.upd
 
 router.post('/admin/register', userController.createAdmin);
 
+router.post('/forgot-password', userController.forgotPassword);
+
+router.post('/reset-password', userController.resetPassword);
+
 module.exports = router;
