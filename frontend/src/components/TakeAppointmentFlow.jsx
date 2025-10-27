@@ -4,6 +4,7 @@ import { createAppointment } from '../services/api';
 function TakeAppointmentFlow({ onAppointmentCreated }) {
   const [step, setStep] = useState(1);
   const [services, setServices] = useState([]);
+  const [allServices, setAllServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
@@ -12,18 +13,31 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
 
   useEffect(() => {
     const fetchServices = async () => {
+      setLoading(true);
       try {
         const res = await fetch('/services');
         const data = await res.json();
         setServices(data);
+        setAllServices(data);
       } catch (err) {
         setError('Error al cargar servicios');
+      } finally {
+        setLoading(false);
       }
     };
     fetchServices();
   }, []);
 
   const horarios = ['9:30hs', '10:00hs', '11:30hs', '12:30hs', '15:00hs', '17:30hs'];
+
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <span className="loader" />
+        <p>Cargando servicios...</p>
+      </div>
+    );
+  }
 
   if (step === 1) {
     return (
@@ -36,7 +50,9 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
             className="take-appointment-search"
             onChange={e => {
               const val = e.target.value.toLowerCase();
-              setServices(s => s.filter(serv => serv.name.toLowerCase().includes(val)));
+              setServices(
+                allServices.filter(serv => serv.name.toLowerCase().includes(val))
+              );
             }}
           />
           <div className="service-list">
@@ -46,6 +62,17 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
                 className={`service-card-selectable${selectedService && selectedService._id === service._id ? ' selected' : ''}`}
                 onClick={() => setSelectedService(service)}
               >
+                {/* Imagen del servicio */}
+                {service.image && (
+                  <div className="take-appointment-service-img">
+                    <img
+                      src={service.image}
+                      alt={service.name}
+                      className="take-appointment-service-img-el"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
                 <div className="service-card-title">{service.name}</div>
                 <div className="service-card-desc">{service.description}</div>
                 <div className="service-card-price">ARS {service.price}</div>
@@ -129,12 +156,24 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
     );
   }
 
-  if (step === 3) {
+  if (step === 3 || step === 4) {
     return (
       <section className="take-appointment-section">
         <div className="take-appointment-box">
-          <h2 className="take-appointment-title">Confirmar turno</h2>
+          <h2 className="take-appointment-title">
+            {step === 3 ? 'Confirmar turno' : 'Turno reservado'}
+          </h2>
           <div className="confirm-card">
+            {/* Imagen del servicio */}
+            {selectedService?.image && (
+              <div className="take-appointment-service-img">
+                <img
+                  src={selectedService.image}
+                  alt={selectedService.name}
+                  className="take-appointment-service-img-el"
+                />
+              </div>
+            )}
             <div className="service-card-title">{selectedService.name}</div>
             <div className="service-card-desc">{selectedService.description}</div>
             <div className="service-card-price">ARS {selectedService.price}</div>
@@ -142,65 +181,54 @@ function TakeAppointmentFlow({ onAppointmentCreated }) {
             <div className="confirm-card-time"><span>Hora:</span> {time}</div>
           </div>
           {error && <p className="take-appointment-error">{error}</p>}
-          <button
-            className="btn-primary take-appointment-confirm"
-            disabled={loading}
-            onClick={async () => {
-              setLoading(true);
-              setError('');
-              try {
-                await createAppointment({ service: selectedService._id, date, time });
-                setStep(4);
-                if (onAppointmentCreated) onAppointmentCreated();
-              } catch (err) {
-                if (err.message.includes('No puedes reservar en fechas pasadas') || err.message.includes('No puedes reservar en horarios pasados')) {
-                  setError('Fecha u hora no válidos');
-                } else {
-                  setError('Error al reservar turno');
+          {step === 3 && (
+            <button
+              className="btn-primary take-appointment-confirm"
+              disabled={loading}
+              onClick={async () => {
+                setLoading(true);
+                setError('');
+                try {
+                  await createAppointment({ service: selectedService._id, date, time });
+                  setStep(4);
+                  if (onAppointmentCreated) onAppointmentCreated();
+                } catch (err) {
+                  if (err.message.includes('No puedes reservar en fechas pasadas') || err.message.includes('No puedes reservar en horarios pasados')) {
+                    setError('Fecha u hora no válidos');
+                  } else {
+                    setError('Error al reservar turno');
+                  }
+                } finally {
+                  setLoading(false);
                 }
-              } finally {
-                setLoading(false);
-              }
-            }}
-          >
-            {loading ? 'Reservando...' : 'Reservar turno'}
-          </button>
-        </div>
-      </section>
-    );
-  }
-
-  if (step === 4) {
-    return (
-      <section className="take-appointment-section">
-        <div className="take-appointment-box">
-          <h2 className="take-appointment-title">Turno reservado</h2>
-          <div className="confirm-card">
-            <div className="service-card-title">{selectedService.name}</div>
-            <div className="service-card-desc">{selectedService.description}</div>
-            <div className="service-card-price">ARS {selectedService.price}</div>
-            <div className="confirm-card-date"><span>Fecha:</span> {date}</div>
-            <div className="confirm-card-time"><span>Hora:</span> {time}</div>
-          </div>
-          <div className="take-appointment-extra">
-            <div>
-              <div className="take-appointment-label">Medios de pago</div>
-              <div className="take-appointment-payments">
-                <span className="btn-secondary">mp</span>
-                <span className="btn-secondary">tarjeta</span>
-                <span className="btn-secondary">efectivo</span>
+              }}
+            >
+              {loading ? 'Reservando...' : 'Reservar turno'}
+            </button>
+          )}
+          {step === 4 && (
+            <div className="take-appointment-extra">
+              <div>
+                <div className="take-appointment-label">Medios de pago</div>
+                <div className="take-appointment-payments">
+                  <span className="btn-secondary">mp</span>
+                  <span className="btn-secondary">tarjeta</span>
+                  <span className="btn-secondary">efectivo</span>
+                </div>
+              </div>
+              <div>
+                <div className="take-appointment-label">Información de contacto</div>
+                <div>11-1234-5678</div>
+                <div>carwash@email.com</div>
               </div>
             </div>
-            <div>
-              <div className="take-appointment-label">Información de contacto</div>
-              <div>11-1234-5678</div>
-              <div>carwash@email.com</div>
-            </div>
-          </div>
+          )}
           <div className="take-appointment-actions">
-            <button className="btn-primary" onClick={() => window.location.reload()}>
-              Reservar otro turno
-            </button>
+            {step === 4 && (
+              <button className="btn-primary" onClick={() => window.location.reload()}>
+                Reservar otro turno
+              </button>
+            )}
           </div>
         </div>
       </section>

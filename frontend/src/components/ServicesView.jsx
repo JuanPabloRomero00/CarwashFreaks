@@ -9,15 +9,26 @@ const ServicesView = ({ services, openEditModal }) => (
       <table className="admin-table">
         <thead>
           <tr>
+            <th>Imagen</th>
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Precio</th>
-            <th>Acciones</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {services.map(service => (
             <tr key={service._id}>
+              <td>
+                {service.image && (
+                  <img
+                    src={service.image}
+                    alt={service.name}
+                    className="take-appointment-service-img-el"
+                    loading="lazy"
+                  />
+                )}
+              </td>
               <td>{service.name || service.nombre}</td>
               <td>{service.description || service.descripcion}</td>
               <td>${service.price ?? service.precio}</td>
