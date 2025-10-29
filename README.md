@@ -14,10 +14,10 @@ Una web para gestionar un servicio de lavado de autos: turnos, servicios, reserv
 
 Aquí un listado de las principales herramientas y librerías:
 
-- **Frontend**: React  
-- **Estilos**: CSS  
-- **Backend / API**: ...
-- **Base de datos**: MongoDB 
+- **Frontend**: React, Vite 
+- **Estilos**: CSS
+- **Backend / API**: Nodejs con Express
+- **Base de datos**: MongoDB Atlas
 
 ---
 
@@ -25,6 +25,3 @@ Aquí un listado de las principales herramientas y librerías:
 
 Para registrar un usuario con rol "admin" accedé a la siguiente URL (solo si conocés el secret):
 
-```
-POST /users/admin/register?secret=TU_CLAVE_ADMIN
-```
