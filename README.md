@@ -21,7 +21,3 @@ Aquí un listado de las principales herramientas y librerías:
 
 ---
 
-## 🔒 Registro privado de administrador
-
-Para registrar un usuario con rol "admin" accedé a la siguiente URL (solo si conocés el secret):
-
